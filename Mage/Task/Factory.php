@@ -10,9 +10,8 @@
 
 namespace Mage\Task;
 
-use Mage\Config;
-
 use Exception;
+use Mage\Config;
 
 /**
  * Task Factory
@@ -46,9 +45,10 @@ class Factory
         $taskName = ucwords(str_replace('-', ' ', $taskName));
         $taskName = str_replace(' ', '', $taskName);
 
-        if (strpos($taskName, '/') === false) {
+        if (class_exists($taskName)) {
+            $className = $taskName;
+        } elseif (strpos($taskName, '/') === false) {
             $className = 'Task\\' . $taskName;
-
         } else {
             $className = 'Mage\\Task\\BuiltIn\\' . str_replace(' ', '\\', ucwords(str_replace('/', ' ', $taskName))) . 'Task';
         }
